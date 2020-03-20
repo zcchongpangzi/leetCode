@@ -23,23 +23,21 @@
 // 解释: 在这种情况下, 没有交易完成, 所以最大利润为 0。
 
 var maxProfit = function(prices) {
+  if (prices.length <= 1) {
+    return 0;
+  }
+  let inPrice = prices[0];
+  let profit = 0;
 
-    if(prices.length <= 1) {
-        return 0;
+  for (let i = 1; i < prices.length; i++) {
+    if (profit < prices[i] - inPrice) {
+      profit = prices[i] - inPrice;
     }
-    let inPrice = prices[0];
-    let profit = 0;
-
-    for(let i = 1; i < prices.length; i ++) {
-
-        if(profit < prices[i] - inPrice) {
-            profit = prices[i] - inPrice;
-        }
-        if(prices[i] < inPrice) {
-            inPrice = prices[i];
-        }
+    if (prices[i] < inPrice) {
+      inPrice = prices[i];
     }
-    return profit;
+  }
+  return profit;
 };
 
 // 543. 二叉树的直径
@@ -68,30 +66,28 @@ var maxProfit = function(prices) {
  * @return {number}
  */
 var diameterOfBinaryTree = function(root) {
-    let max = 0;
-    setDeep(root);
-    function setDeep(root) {
-        if (root !== null) {
-            let left = setDeep(root.left);
-            let right = setDeep(root.right);
+  let max = 0;
+  setDeep(root);
+  function setDeep(root) {
+    if (root !== null) {
+      let left = setDeep(root.left);
+      let right = setDeep(root.right);
 
-            if (max < right + left) {
-                max = right + left;
-            }
+      if (max < right + left) {
+        max = right + left;
+      }
 
-            return Math.max(right,left) + 1;
-        }
-        return 0;
+      return Math.max(right, left) + 1;
     }
+    return 0;
+  }
 
-    return max;
+  return max;
 };
 // 1013. 将数组分成和相等的三个部分
 // 给你一个整数数组 A，只有可以将其划分为三个和相等的非空部分时才返回 true，否则返回 false。
 
 // 形式上，如果可以找出索引 i+1 < j 且满足 (A[0] + A[1] + ... + A[i] == A[i+1] + A[i+2] + ... + A[j-1] == A[j] + A[j-1] + ... + A[A.length - 1]) 就可以将数组三等分。
-
- 
 
 // 示例 1：
 
@@ -113,35 +109,34 @@ var diameterOfBinaryTree = function(root) {
  * @return {boolean}
  */
 var canThreePartsEqualSum = function(A) {
-    if (A.length < 3) {
-        return false;
-    }
-    let sum = 0;
-    for(let i = 0; i < A.length; i ++) {
-        sum += A[i];
-    }
-    if (sum % 3 === 0) {
-        let sum1 = 0;
-        for(let i = 0; i < A.length - 2; i++) {
-            sum1 += A[i];
-            let sum2 = 0;
-            for(let j = i + 1; j < A.length - 1; j ++) {
-                sum2 += A[j];
-    
-                if(sum1 === sum2) {
-                    let sum3 = 0;
-                    for (let k = j + 1; k < A.length; k ++) {
-                        sum3  += A[k];
-                    }
-                    if(sum2 === sum3) {
-                        return true;
-                    }
-                }
-            }
-        }
-    }
+  if (A.length < 3) {
     return false;
-   
+  }
+  let sum = 0;
+  for (let i = 0; i < A.length; i++) {
+    sum += A[i];
+  }
+  if (sum % 3 === 0) {
+    let sum1 = 0;
+    for (let i = 0; i < A.length - 2; i++) {
+      sum1 += A[i];
+      let sum2 = 0;
+      for (let j = i + 1; j < A.length - 1; j++) {
+        sum2 += A[j];
+
+        if (sum1 === sum2) {
+          let sum3 = 0;
+          for (let k = j + 1; k < A.length; k++) {
+            sum3 += A[k];
+          }
+          if (sum2 === sum3) {
+            return true;
+          }
+        }
+      }
+    }
+  }
+  return false;
 };
 /**
  * 前后指针法
@@ -149,39 +144,39 @@ var canThreePartsEqualSum = function(A) {
  * @return {boolean}
  */
 var canThreePartsEqualSum2 = function(A) {
-    if (A.length < 3) {
-        return false;
-    }
-    let sum = 0;
-    for(let i = 0; i < A.length; i ++) {
-        sum += A[i];
-    }
-    if (sum % 3 === 0) {
-        let sum1 = 0;
-
-        for(let i = 0;i < A.length; i ++) {
-            sum1 += A[i];
-            if(sum1 === sum / 3) {
-                let sum2 = 0;
-                for(let j = A.length - 1; j > i + 1; j --) {
-                    sum2 += A[j];
-
-                    if(sum1 === sum2) {
-                        return true;
-                    }
-                }
-            }
-        }
-    }
+  if (A.length < 3) {
     return false;
-}
+  }
+  let sum = 0;
+  for (let i = 0; i < A.length; i++) {
+    sum += A[i];
+  }
+  if (sum % 3 === 0) {
+    let sum1 = 0;
+
+    for (let i = 0; i < A.length; i++) {
+      sum1 += A[i];
+      if (sum1 === sum / 3) {
+        let sum2 = 0;
+        for (let j = A.length - 1; j > i + 1; j--) {
+          sum2 += A[j];
+
+          if (sum1 === sum2) {
+            return true;
+          }
+        }
+      }
+    }
+  }
+  return false;
+};
 
 // 1071. 字符串的最大公因子
 // 对于字符串 S 和 T，只有在 S = T + ... + T（T 与自身连接 1 次或多次）时，我们才认定 “T 能除尽 S”。
 
 // 返回最长字符串 X，要求满足 X 能除尽 str1 且 X 能除尽 str2。
 
-//  
+//
 
 // 示例 1：
 
@@ -202,15 +197,14 @@ var canThreePartsEqualSum2 = function(A) {
  * @return {string}
  */
 var gcdOfStrings = function(str1, str2) {
-    let gcd = function(a,b){
-       return b == 0 ? a:gcd(b,a%b);
-   }
-    if(str1 + str2 != str2 + str1) {
-        return ''
-    } else {
-        return str1.substring(0,gcd(str1.length,str2.length));
-    }
-   
+  let gcd = function(a, b) {
+    return b == 0 ? a : gcd(b, a % b);
+  };
+  if (str1 + str2 != str2 + str1) {
+    return "";
+  } else {
+    return str1.substring(0, gcd(str1.length, str2.length));
+  }
 };
 
 // 169. 多数元素
@@ -231,52 +225,51 @@ var gcdOfStrings = function(str1, str2) {
  * @return {number}
  */
 var majorityElement = function(nums) {
-    let result = 0;
-    let count = 0;
-    for(let i = 0; i < nums.length; i ++) {
-        if(count == 0) {
-            result = nums[i];
-            count ++;
-        } else {
-            nums[i] == result ? count ++ : count--;
-        }
+  let result = 0;
+  let count = 0;
+  for (let i = 0; i < nums.length; i++) {
+    if (count == 0) {
+      result = nums[i];
+      count++;
+    } else {
+      nums[i] == result ? count++ : count--;
     }
-    return result;
+  }
+  return result;
 };
 
 // 字符串压缩。利用字符重复出现的次数，编写一种方法，实现基本的字符串压缩功能。比如，字符串aabcccccaaa会变为a2b1c5a3。若“压缩”后的字符串没有变短，则返回原先的字符串。你可以假设字符串中只包含大小写英文字母（a至z）。
-
 
 /**
  * @param {string} S
  * @return {string}
  */
 var compressString = function(S) {
-    let arrS = S.split('');
+  let arrS = S.split("");
 
-    if (arrS.length == 0) {
-        return S;
-    }
-    // 尾部哨兵对象
-    arrS.push(0);
-    let flag = arrS[0];
-    let count = 1;
-    let result = '';
+  if (arrS.length == 0) {
+    return S;
+  }
+  // 尾部哨兵对象
+  arrS.push(0);
+  let flag = arrS[0];
+  let count = 1;
+  let result = "";
 
-    for(let i = 1; i < arrS.length; i ++) {
-        if (flag != arrS[i]) {
-            result += (flag + count);
-            flag = arrS[i]
-            count = 1;
-        } else {
-            count ++;
-        }
+  for (let i = 1; i < arrS.length; i++) {
+    if (flag != arrS[i]) {
+      result += flag + count;
+      flag = arrS[i];
+      count = 1;
+    } else {
+      count++;
     }
-    if(result.length >= S.length) {
-        return S;
-    }
+  }
+  if (result.length >= S.length) {
+    return S;
+  }
 
-    return result;
+  return result;
 };
 
 // 1160. 拼写单词
@@ -288,13 +281,11 @@ var compressString = function(S) {
 
 // 返回词汇表 words 中你掌握的所有单词的 长度之和。
 
- 
-
 // 示例 1：
 
 // 输入：words = ["cat","bt","hat","tree"], chars = "atach"
 // 输出：6
-// 解释： 
+// 解释：
 // 可以形成字符串 "cat" 和 "hat"，所以答案是 3 + 3 = 6。
 // 示例 2：
 
@@ -309,46 +300,43 @@ var compressString = function(S) {
  * @return {number}
  */
 var countCharacters = function(words, chars) {
-    let wordMap = {};
-    for (let i = 0; i < chars.length; i ++) {
-        if (wordMap[chars[i]]){
-            wordMap[chars[i]] += 1;
-        } else {
-            wordMap[chars[i]] = 1;
-        }
+  let wordMap = {};
+  for (let i = 0; i < chars.length; i++) {
+    if (wordMap[chars[i]]) {
+      wordMap[chars[i]] += 1;
+    } else {
+      wordMap[chars[i]] = 1;
     }
-    let result = 0;
+  }
+  let result = 0;
 
-    for(let i = 0; i < words.length; i ++) {
-        let tempWordMap = {};
-        let flag = true;
-        for(let j = 0; j < words[i].length; j ++) {
-            if (tempWordMap[words[i][j]]){
-                tempWordMap[words[i][j]] += 1;
-             } else {
-                tempWordMap[words[i][j]] = 1;
-            }
+  for (let i = 0; i < words.length; i++) {
+    let tempWordMap = {};
+    let flag = true;
+    for (let j = 0; j < words[i].length; j++) {
+      if (tempWordMap[words[i][j]]) {
+        tempWordMap[words[i][j]] += 1;
+      } else {
+        tempWordMap[words[i][j]] = 1;
+      }
 
-            if(wordMap[words[i][j]]) {
-                if (wordMap[words[i][j]] < tempWordMap[words[i][j]]) {
-                    flag = false;
-                    break;// 
-                }
-            } else {
-                flag = false;
-                break;// 这两个break加上后，整个测试用例跑完,从800ms减少到300ms...代码细节真的很重要
-            }
-
+      if (wordMap[words[i][j]]) {
+        if (wordMap[words[i][j]] < tempWordMap[words[i][j]]) {
+          flag = false;
+          break; //
         }
-
-        if (flag) {
-            result += words[i].length;
-        }
-    
+      } else {
+        flag = false;
+        break; // 这两个break加上后，整个测试用例跑完,从800ms减少到300ms...代码细节真的很重要
+      }
     }
 
-    return result;
+    if (flag) {
+      result += words[i].length;
+    }
+  }
 
+  return result;
 };
 
 // 这个题目刚开始想复杂了，写了方法算某个点是否在矩形内来判断相交，其实取反就可以了
@@ -374,11 +362,55 @@ var countCharacters = function(words, chars) {
  * @return {boolean}
  */
 var isRectangleOverlap = function(rec1, rec2) {
-
-    return (
-        !((rec2[1] >= rec1[3] && rec2[3] > rec1[3]) ||
+  return !(
+    (rec2[1] >= rec1[3] && rec2[3] > rec1[3]) ||
     (rec2[0] >= rec1[2] && rec2[2] > rec1[2]) ||
     (rec2[3] <= rec1[1] && rec2[1] < rec1[1]) ||
-    (rec2[2] <= rec1[0] && rec2[0] < rec1[0]))
-    );
-  };
+    (rec2[2] <= rec1[0] && rec2[0] < rec1[0])
+  );
+};
+// 面试题40. 最小的k个数
+// 输入整数数组 arr ，找出其中最小的 k 个数。例如，输入4、5、1、6、2、7、3、8这8个数字，则最小的4个数字是1、2、3、4。
+
+ 
+
+// 示例 1：
+
+// 输入：arr = [3,2,1], k = 2
+// 输出：[1,2] 或者 [2,1]
+// 示例 2：
+
+// 输入：arr = [0,1,2,1], k = 1
+// 输出：[0]
+ /**
+ * @param {number[]} arr
+ * @param {number} k
+ * @return {number[]}
+ */
+var getLeastNumbers = function(arr, k) {
+    function quikSort(arr, left, right) {
+        if(left >= right) {
+            return;
+        }
+        let pivot = arr[left]
+        let i = left;
+        let j = right;
+    
+    
+        while(i < j) {
+            while(i < j && arr[j] >= pivot) j--
+            arr[i] = arr[j]
+            while(i < j && arr[i] < pivot) i++
+            arr[j] = arr[i]
+        }
+        arr[i] = pivot
+        quikSort(arr,left, i - 1);
+        quikSort(arr,i + 1, right);
+    }
+        let result = [];
+        quikSort(arr,0,arr.length - 1);
+        for(let i = 0; i < k; i ++) {
+            result.push(arr[i]);
+        }
+        return result;
+    };
