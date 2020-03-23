@@ -1,4 +1,16 @@
 /**
+ * Definition for singly-linked list.
+ * function ListNode(val) {
+ *     this.val = val;
+ *     this.next = null;
+ * }
+ */
+function ListNode(val) {
+     this.val = val;
+     this.next = null;
+}
+
+/**
  * 121. 买卖股票的最佳时机
  * @param {number[]} prices
  * @return {number}
@@ -435,6 +447,7 @@ var getLeastNumbers = function(arr, k) {
 // 可以看出 5 次或 5 次以下的 move 操作是不能让数组的每个值唯一的。
 
 /**
+ * 排序后逐个递增
  * @param {number[]} A
  * @return {number}
  */
@@ -456,4 +469,29 @@ var minIncrementForUnique = function(A) {
   }
   return result;
 
+};
+
+// 876. 链表的中间结点
+// 给定一个带有头结点 head 的非空单链表，返回链表的中间结点。
+
+// 如果有两个中间结点，则返回第二个中间结点。
+
+// 直接循环，我用了一个数组存储链表节点，这样取的时候就不用再去循环了
+// 还有种解法是快慢指针，效率应该比我的方法要高
+
+ /**
+ * @param {ListNode} head
+ * @return {ListNode}
+ */
+var middleNode = function(head) {
+  let res;
+  let cur = head;
+  let tempArr = [];
+  while(cur && cur.val){
+      let node = new ListNode(cur.val);
+      node.next = cur.next;
+      cur = cur.next;
+      tempArr.push(node);
+  }
+  return tempArr[parseInt(tempArr.length / 2)];
 };
