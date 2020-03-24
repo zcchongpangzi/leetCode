@@ -495,3 +495,24 @@ var middleNode = function(head) {
   }
   return tempArr[parseInt(tempArr.length / 2)];
 };
+
+// 面试题 17.16. 按摩师
+// 一个有名的按摩师会收到源源不断的预约请求，每个预约都可以选择接或不接。在每次预约服务之间要有休息时间，因此她不能接受相邻的预约。给定一个预约请求序列，替按摩师找到最优的预约集合（总预约时间最长），返回总的分钟数。
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var massage = function(nums) {
+  let lastRes = 0; // 之前数组不加最后一个值取的的最大结果
+  let res = 0; //之前数组取得的最后结果
+
+  for(let i = 0; i < nums.length; i++) {
+      // 比较之前数组中增加本次元素后可取得的最大结果
+      let temp = Math.max(res,lastRes + nums[i]);
+      // 更新添加后的数组不加最后一个值取的的最大结果
+      lastRes = res;
+      // 更新数组取得的最后结果
+      res = temp;
+  }
+  return res;
+};
