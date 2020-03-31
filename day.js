@@ -516,3 +516,163 @@ var massage = function(nums) {
   }
   return res;
 };
+
+// 892. 三维形体的表面积
+// 在 N * N 的网格上，我们放置一些 1 * 1 * 1  的立方体。
+
+// 每个值 v = grid[i][j] 表示 v 个正方体叠放在对应单元格 (i, j) 上。
+
+// 请你返回最终形体的表面积。
+
+/**
+ * @param {number[][]} grid
+ * @return {number}
+ */
+var surfaceArea = function(grid) {
+  let res = 0;
+  for(let i = 0; i < grid.length; i++) {
+      let tempArr = grid[i];
+      for(let j = 0; j < tempArr.length; j++) {
+          if(grid[i][j] > 0) {
+              res += (tempArr[j] * 6) - (tempArr[j] - 1) * 2;
+          }
+          // 上
+          if(i - 1 >= 0) {
+              res -= Math.min(grid[i - 1][j],grid[i][j]);
+          }
+          // 下
+          if(i + 1 < grid.length) {
+              res -= Math.min(grid[i + 1][j],grid[i][j]);
+          }
+          // 左
+          if(j - 1 >= 0) {
+              res -= Math.min(grid[i][j - 1],grid[i][j]);
+          }
+          // 右
+          if(j + 1 < grid.length) {
+              res -= Math.min(grid[i][j + 1],grid[i][j]);
+          }
+      }
+  }
+ return res;
+
+};
+
+/**
+ * @param {character[][]} board
+ * @return {number}
+ */
+var numRookCaptures = function(board) {
+
+  function foundRes(board,i,j) {
+      let res = 0;
+      let tempUp = i;
+      while(tempUp >= 0){
+          if(board[tempUp][j] == 'B') break;
+          if(board[tempUp][j] == 'p') res++;
+          tempUp --;
+      }
+      let tempDown = i;
+      while(tempDown <= board.length){
+          if(board[tempDown][j] == 'B') break;
+          if(board[tempDown][j] == 'p') res++;
+          tempDown ++;
+      }
+      let tempLeft = j;
+      while(tempLeft >= 0){
+          if(board[i][tempLeft] == 'B') break;
+          if(board[i][tempLeft] == 'p') res++;
+          tempLeft --;
+      }
+      let tempRight = j;
+      while(tempRight <= board.length){
+          if(board[i][tempRight] == 'B') break;
+          if(board[i][tempRight] == 'p') res++;
+          tempRight ++;
+      }
+
+  }
+
+  let res = 0;
+  for(let i = 0; i < board.length; i++) {
+      for(let j = 0; j < board.length; j++) {
+          if(board[i][j] == 'R'){
+              return foundRes(board,i,j);
+          }
+      }
+  }
+
+};
+
+let arr = [[".",".",".",".",".",".",".","."],[".",".",".","p",".",".",".","."],[".",".",".","R",".",".",".","p"],[".",".",".",".",".",".",".","."],[".",".",".",".",".",".",".","."],[".",".",".","p",".",".",".","."],[".",".",".",".",".",".",".","."],[".",".",".",".",".",".",".","."]]
+
+// numRookCaptures(arr);
+
+
+// 914. 卡牌分组
+// 给定一副牌，每张牌上都写着一个整数。
+
+// 此时，你需要选定一个数字 X，使我们可以将整副牌按下述规则分成 1 组或更多组：
+
+// 每组都有 X 张牌。
+// 组内所有的牌上都写着相同的整数。
+// 仅当你可选的 X >= 2 时返回 true。
+
+ /**
+ * @param {number[]} deck
+ * @return {boolean}
+ */
+var hasGroupsSizeX = function(deck) {
+
+  let gcd = function(a, b) {
+  return b == 0 ? a : gcd(b, a % b);
+  };
+  
+  let keyMap = {};
+  for (let i = 0; i < deck.length; i++) {
+      if (!keyMap[deck[i]]) {
+          keyMap[deck[i]] = 1;
+      } else {
+          keyMap[deck[i]]++;
+      }
+  }
+  let countArr = Object.keys(keyMap).map((val)=>keyMap[val]);
+  let cgdVal = countArr[0];
+  let flag = true;
+  for (let i = 0; i < countArr.length; i ++) {
+      if (countArr[i] == 1) return false;
+      cgdVal = gcd(countArr[i],cgdVal);
+  }
+
+  if (cgdVal == 1) flag = false;
+  return flag;
+};
+
+// 输出有效 ip地址
+var restoreIpAddresses = function(s) {
+  let totalLength = s.length;
+  let res = [];
+  for(let i = 1; i < 4; i++) {
+      if (i > totalLength - 3) break;
+      for(let j = 1; j < 4; j++) {
+          if(i + j > totalLength - 2) break;
+          for(let k = 1; k < 4; k++) {
+              if(i + j + k > totalLength - 1) break;
+              for(let l = 1; l < 4; l++) {
+                  if(i + j + k + l != totalLength) break;
+                  
+                  let item = '';
+                  for(let m = 0; m < totalLength; m++) {
+                       if (m == i || m == j || m == k) {
+                          item = item + '.'
+                      } 
+                      item = item + s[m];
+                  }
+                  res.push(item);
+              }
+          }
+      }
+  }
+  
+  return res;
+};
