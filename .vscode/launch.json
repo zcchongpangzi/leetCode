@@ -8,7 +8,7 @@
             "type": "node",
             "request": "launch",
             "name": "LeetCode",
-            "program": "${workspaceFolder}/day.js",
+            "program": "${workspaceFolder}/123.js",
             "skipFiles": [
                 "<node_internals>/**"
             ]
